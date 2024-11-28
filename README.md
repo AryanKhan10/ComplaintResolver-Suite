@@ -1,6 +1,4 @@
-# ComplaintResolver-Suite
-<<<<<<< HEAD
-<h1>Complaint Mangment System</h1>
+# Complaint Mangment System
 <h2>Introduction</h2>
 <h3>Project Orview</h3>
 <P>The <b>Complaint Management and Tracking System</b> is designed to streamline the process of managing complaints in an<br> organization. It provides a platform where users can submit, track, and resolve their complaints <br>efficiently. The system automates complaint handling, ensuring that issues are resolved in a timely <br>manner with proper documentation and tracking.</P> <br><br>

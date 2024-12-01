@@ -24,6 +24,10 @@ const complaintSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
+        agentId: { // New field
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User", // Must reference a user with `accountType: "Agent"`
+        },
         resolutionId:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Resolution",

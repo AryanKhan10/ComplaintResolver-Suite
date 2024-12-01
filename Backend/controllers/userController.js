@@ -129,6 +129,21 @@ const updateUserById = async (req, res) => {
     }
   };
   
+  //Deleting a single user
+   
+
+  const deleteUserById = async (req, res) => {
+    try{
+      const {id} =req.params;
+    const user = await User.findByIdAndDelete(id);
+    console.log('user Deleted ', user);
+    res.status(201).json('User deleted successfully');
+    
+    }catch(err){
+      console.log('Error occured deleting user', err);
+      res.status(500).json({message:'Error delteting user', err});
+    }
+  }
 
 
 
@@ -137,4 +152,4 @@ const updateUserById = async (req, res) => {
 
 
 
-export  {createUser, getAllUsers, getUserById, updateUserById};
+export  {createUser, getAllUsers, getUserById, updateUserById, deleteUserById};

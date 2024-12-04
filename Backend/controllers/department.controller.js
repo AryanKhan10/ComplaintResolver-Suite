@@ -55,4 +55,96 @@ const createDepartment = async (req, res) => {
     }
 };
 
-export default createDepartment;
+// fetch a department
+const getDepartmentById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const department = await Department.findById(id).populate('agentId');
+
+        if (!department) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        res.status(200).json({
+            message: 'Department fetched successfully',
+            department,
+        });
+    } catch (error) {
+        console.error('Error occurred while fetching the department:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+// fetching all departments data from backend
+const getAllDepartments = async (req, res) => {
+    try {
+        const departments = await Department.find().populate('agentId');
+        res.status(200).json({
+            message: 'Departments fetched successfully',
+            departments,
+        });
+    } catch (error) {
+        console.error('Error occurred while fetching departments:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+//Updating a single department or depratment by ID
+
+const updateDepartment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { departmentName, agentId } = req.body;
+
+        const updatedDepartment = await Department.findByIdAndUpdate(
+            id,
+            { departmentName, agentId },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedDepartment) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        res.status(200).json({
+            message: 'Department updated successfully',
+            department: updatedDepartment,
+        });
+    } catch (error) {
+        console.error('Error occurred while updating department:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+// delete a single department by id
+const deleteDepartment = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedDepartment = await Department.findByIdAndDelete(id);
+
+        if (!deletedDepartment) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        res.status(200).json({
+            message: 'Department deleted successfully',
+            department: deletedDepartment,
+        });
+    } catch (error) {
+        console.error('Error occurred while deleting department:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+export {
+    createDepartment,
+    getAllDepartments,
+    getDepartmentById,
+    updateDepartment,
+    deleteDepartment,
+};
+

@@ -13,7 +13,7 @@ const singUpController = async(req, res)=>{
           return  res.status(400).json({message:'All Requried Fields Must be Provided' } );
         }
 
-        const userCreated = await new User({firstName, lastName, email, accountType, password});
+        const userCreated = new User({firstName, lastName, email, accountType, password});
         console.log('New user created');
         const userSaved = await userCreated.save();
         console.log('user saved');

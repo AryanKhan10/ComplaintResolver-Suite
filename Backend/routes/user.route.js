@@ -1,12 +1,12 @@
 import express from 'express';
 import {
-    singUpController,signInController, deleteUserById,
+    deleteUserById,
     getAllUsers, getUserById, updateUserById, updateUserPassword
 } from '../controllers/user.controller.js'; 
-
+// singUpController,signInController
 const router = express.Router();
-router.post('/account-singup/', singUpController);
-router.post('/account-login', signInController);
+// router.post('/account-singup/', singUpController);
+// router.post('/account-login', signInController);
 router.get('/', getAllUsers); 
 router.get('/:id', getUserById); 
 router.delete('/:id', deleteUserById); 

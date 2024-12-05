@@ -1,17 +1,21 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import connectDB from './db/db.js'
-dotenv.config()
 
+dotenv.config()
+// import router from './router.js'
 const app = express()
 app.use(express.json());
 import auth from "./routes/auth.route.js"
 import complaint from "./routes/complaint.route.js"
 import user from "./routes/user.route.js"
 import cookieParser from "cookie-parser";
+import router from './routes/user.route.js'
+import department from "./routes/department.route.js"
 
-
+app.use('/user', router)
 app.use(cookieParser())
+app.use('/department', department);
 
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/complaint", complaint);

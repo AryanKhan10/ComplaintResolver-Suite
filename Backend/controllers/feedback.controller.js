@@ -6,7 +6,7 @@ const addFeedback = async (req, res) => {
     try {
         const { complaintId } = req.params;
         const { feedback } = req.body;
-        const userId = req.user.id; // Assuming `req.user` contains authenticated user's details
+        const userId = req.user.userId; // Assuming `req.user` contains authenticated user's details
 
         // Check if the complaint exists and was filed by the user
         const complaint = await Complaint.findOne({ _id: complaintId, userId });

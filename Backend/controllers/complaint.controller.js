@@ -1,9 +1,11 @@
 import { Complaint } from "../models/complaint.model.js";
+import fileUpload from "../utiles/uploadFile.js";
 
 // Create a new complaint
 const createComplaint = async (req, res) => {
     try {
-        const { title, description, attachment } = req.body;
+        const { title, description } = req.body;
+        const file = req.files.attachment;
 
         if (!title || !description) {
             return res.status(400).json({
@@ -12,19 +14,19 @@ const createComplaint = async (req, res) => {
             });
         }
 
-        const userId = req.user?.id;
+        const userId = req.user?.userId;
         if (!userId) {
             return res.status(401).json({
                 success: false,
                 message: "Unauthorized. User ID is missing.",
             });
         }
-
+        const upload = await fileUpload(file, process.env.FOLDER)
         const newComplaint = await Complaint.create({
             title,
             description,
             status: "pending",
-            attachment,
+            attachment:upload.secure_url,
             userId,
         });
 
@@ -45,15 +47,16 @@ const createComplaint = async (req, res) => {
 // Fetch all complaints
 const getAllComplaints = async (req, res) => {
     try {
-        const { accountType, id } = req.user;
-
+        const { accountType, userId } = req.user;
+        // console.log(userId)
         let complaints;
         if (accountType === "Admin") {
             complaints = await Complaint.find();
         } else if (accountType === "Ordinary") {
-            complaints = await Complaint.find({ userId: id });
+            complaints = await Complaint.find({ userId: userId });
+            // console.log("abc ")
         } else if (accountType === "Agent") {
-            complaints = await Complaint.find({ agentId: id });
+            complaints = await Complaint.find({ agentId: userId });
         } else {
             return res.status(403).json({
                 success: false,
@@ -106,7 +109,9 @@ const getComplaintById = async (req, res) => {
 const updateComplaint = async (req, res) => {
     try {
         const { id } = req.params;
-        const userId = req.user.id;
+        const userId = req.user.userId;
+        const { title, description } = req.body;
+        const file = req.files.attachment;
 
         const complaint = await Complaint.findById(id);
         if (!complaint) {
@@ -123,7 +128,14 @@ const updateComplaint = async (req, res) => {
             });
         }
 
-        const updatedComplaint = await Complaint.findByIdAndUpdate(id, req.body, { new: true });
+        const upload = await fileUpload(file, process.env.FOLDER)
+
+        const updatedComplaint = await Complaint.findByIdAndUpdate(id, 
+            {
+                title,
+                description,
+                attachment:upload.secure_url
+            }, { new: true });
 
         res.status(200).json({
             success: true,
@@ -179,7 +191,7 @@ const updateComplaintStatus = async (req, res) => {
 const deleteComplaint = async (req, res) => {
     try {
         const { id } = req.params;
-        const { id: userId, accountType } = req.user;
+        const { userId, accountType } = req.user;
 
         const complaint = await Complaint.findById(id);
         if (!complaint) {

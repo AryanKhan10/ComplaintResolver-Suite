@@ -61,6 +61,7 @@ const isOrdinary = async (req, res, next) => {
 //admin
 const isAdmin = async (req, res, next) => {
     try {
+        // console.log(req.user)
         if (req.user.accountType !== "Admin") {
             return res.status(401).json({
                 success: false,
@@ -71,6 +72,7 @@ const isAdmin = async (req, res, next) => {
         next();
 
     } catch (error) {
+        // console.log(error)
         res.status(500).json({
             success: false,
             message: "Not an Admin.",
@@ -100,4 +102,4 @@ const isAgent = async (req, res, next) => {
     }
 }
 
-export { auth, isAdmin, isAgent };
+export { auth, isAdmin, isAgent, isOrdinary };

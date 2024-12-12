@@ -40,18 +40,18 @@ const router = express.Router();
 router.post('/create', auth, createComplaint);
 
 // Route to get all complaints
-router.get('/get', auth, getAllComplaints);
+router.get('/getAllComplaints', auth, getAllComplaints);
 
 // Route to get a specific complaint by ID
-router.get('/get/:id', auth, getComplaintById);
+router.get('/getComplaint/:id', auth, getComplaintById);
 
 // Route to update complaint details
-router.put('/update/:id', auth, updateComplaint);
+router.put('/updateComplaint/:id', auth, updateComplaint);
 
 // Route to update complaint status
 router.put('/update-status/:id', auth, updateComplaintStatus);
 
 // Route to delete a complaint
-router.delete('/delete/:id', auth, deleteComplaint);
+router.delete('/deleteComplaint/:id', auth, deleteComplaint);
 
 export default router;

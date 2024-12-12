@@ -1,3 +1,11 @@
+
+
+import { compare } from 'bcrypt';
+import { User } from '../models/user.model.js';
+import bcrypt from 'bcrypt';
+
+// geting All users
+
 // import { User } from '../models/user.model';
 import { User } from "../models/user.model.js";
 import { OTP } from "../models/otp.model.js";
@@ -34,6 +42,7 @@ const signup = async (req, res) => {
         message: "Please fill all the field.",
       });
     }
+
 
     //check passwords
     if (password !== confirmPassword) {
@@ -264,6 +273,7 @@ const updateUserPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
+
     res.status(201).json({ message: "Password Updated", user: updatePassword });
   } catch (err) {
     console.error("Error Occurred Updating Password:", err);
@@ -293,3 +303,4 @@ export {
   deleteUserById,
   updateUserPassword,
 };
+

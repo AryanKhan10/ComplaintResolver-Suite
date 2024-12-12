@@ -1,47 +1,93 @@
 import { useRef, useState } from "react";
 import Validate from "../utils/validate";
 import { useNavigate } from "react-router";
-
-
+import API from "../../api/api";
+import toast from "react-hot-toast";
 const LoginForm = () => {
-
-   const nav = useNavigate()
+  const nav = useNavigate();
   // Create state for toggling between forms
   const [isSignIn, setSignIn] = useState(true);
-  const [Iserror , setiserror] = useState(null)
-  const email = useRef()
-  const password = useRef()
-  const name = useRef()
-
+  const [Iserror, setiserror] = useState(null);
+  const email = useRef();
+  const password = useRef();
+  const confirmPassword = useRef();
+  const firstName = useRef();
+  const lastName = useRef();
+  const accountType = useRef();
+  const address = useRef();
   // Handle form toggle
   const handleToggle = () => {
     setSignIn(!isSignIn);
-
   };
+  // useEffect(()=>{toast.success("hu")},[])
+  const Handleform = async () => {
+    const Message = Validate(
+      email?.current?.value,
+      password?.current?.value,
+      firstName?.current?.value,
+      lastName?.current?.value
+    );
 
-  const Handleform = ()=>{
-    const Message =    Validate(email?.current?.value , password?.current?.value  , name?.current?.value )
-     console.log(email?.current?.value);
-     console.log(password?.current?.value);
-     console.log(Message);
+    setiserror(Message);
 
-    setiserror(Message)
-
-    if (!Message) {
-        nav("/browse/card");
+    if (!isSignIn) {
+      console.log(confirmPassword.current.value);
+      if (password.current.value !== confirmPassword.current.value) {
+        return alert("Passwords do not match");
       }
-     
-      if(!isSignIn){
-     const check =    Validate(email?.current?.value , password?.current?.value  , name?.current?.value )
-      setiserror(check)
-     if(!check){
-        nav("/opt")
-     }
+      const check = Validate(
+        email?.current?.value,
+        password?.current?.value,
+        firstName?.current?.value,
+        lastName.current?.value
+      );
+      setiserror(check);
+      if (!check) {
+        try {
+        
+          const res = await API.post(
+            "/auth/sendOTP",
+            { email: email.current.value },
+          );
+          
+          console.log(res);
+          toast.success(`OTP Send to ${email.current.value}`);
 
-      
+          nav("/wait", {
+            state: {
+              firstName: firstName.current.value,
+              lastName: lastName.current.value,
+              email: email.current.value,
+              password: password.current.value,
+              confirmPassword: confirmPassword.current.value,
+              accountType: accountType.current.value,
+              address: address.current.value,
+            },
+          });
+
+        } catch (error) {
+          alert("Error sending OTP");
+          console.log(error);
+        }
       }
- 
-  }
+    } else {
+      if (!Message) {
+        try {
+          const res = await API.post("/user/login", {
+            email: email.current.value,
+            password: password.current.value,
+          });
+          console.log(res);
+          toast.success("loggedIn Successfully!");
+          nav("/browse/card");
+        } catch (error) {
+          alert("Error Logging");
+          console.log(error);
+        }
+      }
+      setiserror(Message);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-600">
@@ -51,7 +97,7 @@ const LoginForm = () => {
           <h1 className="text-2xl font-bold text-gray-700 text-center mb-6">
             Reflex<span className="text-blue-500">CMS</span>
           </h1>
-          <form onSubmit={(e)=> e.preventDefault()}>
+          <form onSubmit={(e) => e.preventDefault()}>
             {/* Email */}
             <div className="mb-4">
               <label
@@ -61,7 +107,6 @@ const LoginForm = () => {
                 Email address
               </label>
               <input
-              
                 ref={email}
                 name="email"
                 placeholder="Enter your email"
@@ -87,7 +132,7 @@ const LoginForm = () => {
                 className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
-               <p className="text-red-400 px-4 font-bold">{Iserror}</p>
+              <p className="text-red-400 px-4 font-bold">{Iserror}</p>
             </div>
 
             {/* Forgot Password */}
@@ -119,28 +164,27 @@ const LoginForm = () => {
             </div>
           </form>
         </div>
-       
-      )  : (
+      ) :(
         <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-lg">
           {/* Registration Form */}
           <h1 className="text-2xl font-bold text-gray-700 text-center mb-6">
             Reflex<span className="text-blue-500">CMS</span>
           </h1>
-          <form onSubmit={(e)=> e.preventDefault()}>
-            {/* Full Name and CNIC */}
+          <form onSubmit={(e) => e.preventDefault()}>
+            {/* Full Name */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <label
-                  htmlFor="fullname"
+                  htmlFor="firstName"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Full name
+                  First Name
                 </label>
                 <input
                   type="text"
-                  id="fullname"
-                  name="fullname"
-                  ref={name}
+                  id="firstName"
+                  name="firstName"
+                  ref={firstName}
                   placeholder="Enter your full name"
                   className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -148,16 +192,49 @@ const LoginForm = () => {
               </div>
               <div>
                 <label
-                  htmlFor="cnic"
+                  htmlFor="lastName"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  CNIC
+                  Last Name
                 </label>
                 <input
                   type="text"
-                  id="cnic"
-                  name="cnic"
-                  placeholder="Enter your CNIC"
+                  id="lastName"
+                  name="lastName"
+                  ref={lastName}
+                  placeholder="Enter your full name"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <select
+                  id="accountType"
+                  ref={accountType}
+                  name="accountType"
+                  className="w-full border text-sm border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                >
+                  <option > 
+                    Select your Account Type
+                  </option>
+                  <option value="Ordinary">Ordinary</option>
+                  <option value="Agent">Agent</option>
+                  <option value="Admin">Admin</option>
+                </select>
+             
+                <label
+                  htmlFor="cnic"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  ref={address}
+                  name="address"
+                  placeholder="Enter your Address"
                   className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
@@ -211,7 +288,7 @@ const LoginForm = () => {
                 </label>
                 <input
                   type="password"
-                  ref={password}
+                  ref={confirmPassword}
                   id="confirm-password"
                   name="confirm-password"
                   placeholder="Confirm your password"
@@ -229,7 +306,8 @@ const LoginForm = () => {
 
             {/* Register Button */}
             <button
-              type="submit" onClick={Handleform}
+              type="submit"
+              onClick={Handleform}
               className="w-full bg-blue-500 text-white font-medium py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
               Register

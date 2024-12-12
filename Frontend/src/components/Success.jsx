@@ -7,7 +7,7 @@ const SuccessScreen = () => {
 
     const Dashborad = ()=>{
     
-        Dashuse("/browse/card")
+        Dashuse("/")
 
     }
   return (

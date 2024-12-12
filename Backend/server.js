@@ -3,9 +3,17 @@ import express from 'express'
 import connectDB from './db/db.js'
 import cloud from './db/cloudinary.js'
 import fileUpload from 'express-fileupload'
+import cors from 'cors'
 dotenv.config()
 // import router from './router.js'
 const app = express()
+app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
+app.use(cookieParser())
 app.use(express.json());
 import auth from "./routes/auth.route.js"
 import complaint from "./routes/complaint.route.js"
@@ -13,8 +21,6 @@ import user from "./routes/user.route.js"
 import cookieParser from "cookie-parser";
 import department from "./routes/department.route.js"
 import feedback from "./routes/feedback.route.js"
-
-app.use(cookieParser())
 
 app.use(fileUpload({
     useTempFiles : true,

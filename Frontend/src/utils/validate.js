@@ -1,10 +1,12 @@
-const Validate = (email ,password ,name)=>{
+const Validate = (email ,password ,firstName, lastName)=>{
         
-    const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(name)
+    const firstNameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(firstName)
+    const lastNameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(lastName)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password);;
 
-     if(!nameRegex) return "Name is invalid"
+     if(!firstNameRegex) return "Name is invalid"
+     if(!lastNameRegex) return "Name is invalid"
     if(!emailRegex) return "Email is invalid";
     if(!passwordRegex) return "Password is invalid";
 

@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router"
 import LoginForm from "./Login"
 import Browse from "./browse"
-import OPT from "./Opt"
 import OTPVerification from "./OTPwait"
 import SuccessScreen from "./Success"
 import Cards from "./Cards"
@@ -42,10 +41,10 @@ const Body = ()=>{
        
       ] ,
    } ,
-   {
-    path:"/opt",
-    element:<OPT/>
-   },
+//    {
+//     path:"/opt",
+//     element:<OPT/>
+//    },
    {
     path:"wait" ,
     element:<OTPVerification/>

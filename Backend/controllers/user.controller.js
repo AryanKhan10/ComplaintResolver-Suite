@@ -3,98 +3,6 @@ import { compare } from 'bcrypt';
 import { User } from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 
-//creating a single user
-// const singUpController = async(req, res)=>{
-//     try{
-//         const {firstName, lastName, email,address,password,accountType} = req.body;
-//         console.log('Data recieved for new user');
-
-//         if( !firstName || !lastName || !email || !accountType || !password ){
-//           return  res.status(400).json({message:'All Requried Fields Must be Provided' } );
-//         }
-
-// // const createUser = async(req, res)=>{
-// //     try{
-// //         const {firstName, lastName, email,address,password,accountType} = req.body;
-// //         console.log('Data recieved for new user');
-//
-// const singUpController = async(req, res)=>{
-//     try{
-//         const {firstName, lastName, email,address,password,accountType} = req.body;
-//         console.log('Data recieved for new user');
-// >>>>>>> main
-
-//         if( !firstName || !lastName || !email || !accountType || !password ){
-//           return  res.status(400).json({message:'All Requried Fields Must be Provided' } );
-//         }
-
-//         const userCreated = new User({firstName, lastName, email, accountType, password});
-//         console.log('New user created');
-//         const userSaved = await userCreated.save();
-//         console.log('user saved');
-//         res.status(201).json({ message: "New User Created", user: userSaved });
-
-//     }catch(error){
-//         res.status(500).json({ message: "Error creating user", error });
-//     }
-// }
-
-// //         const userCreated = await new User({firstName, lastName, email, accountType, password});
-// //         console.log('New user created');
-// //         const userSaved = await userCreated.save();
-// //         console.log('user saved');
-// //         res.status(201).json({ message: "New User Created", user: userSaved });
-
-//         const userCreated = new User({firstName, lastName, email, accountType, password});
-//         console.log('New user created');
-//         const userSaved = await userCreated.save();
-//         console.log('user saved');
-//         res.status(201).json({ message: "New User Created", user: userSaved });
-
-
-//     }catch(error){
-//         res.status(500).json({ message: "Error creating user", error });
-//     }
-// }
-
-// Signin Controller
-
-// const signInController = async (req, res)=>{
-//   try{
-//     const {email, password} = req.body;
-// console.log('Data for login recieved')
-//     const user = await User.findOne({email});
-//     console.log('User Data: ', user.email, user.password);
-//     if (!email || !password) {
-//       return res.status(400).json({ message: "Email and password are required" });
-//     }
-
-
-//     if(!user){
-//       console.log("No account found! Can't login.");
-//      return res.status(404).json({message: "No Account found, please sign up"});
-//     }
-
-//     console.log('Checking Password');
-//     // const isPasswordValid = await compare(password, user.password);
-//     const isPasswordValid = (password===user.password)? true: false;
-    
-//     // console.log('Value of isValid: ', isPasswordValid);
-//     // console.log('Real Password: ', user.password, 'Entered Password is: ', password);
-//     if(!isPasswordValid){
-//       console.log('password incorrect');
-//       return res.status(401).json({message: "Invalid password"});
-   
-//     }
-
-//     res.status(200).json({ message: "Login successful"});
-
-//   }catch(error){
-//     res.status(500).json({message:'Error occured while trying to login', error: error});
-//   }
-
-// };
-
 // geting All users
 
 const getAllUsers = async (req, res) => {
@@ -235,4 +143,3 @@ export  {
   getUserById, updateUserById,
    deleteUserById, updateUserPassword};
 
-  //  singUpController,signInController,

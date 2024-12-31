@@ -1,9 +1,4 @@
 
-
-import { compare } from 'bcrypt';
-import { User } from '../models/user.model.js';
-import bcrypt from 'bcrypt';
-
 // geting All users
 
 // import { User } from '../models/user.model';

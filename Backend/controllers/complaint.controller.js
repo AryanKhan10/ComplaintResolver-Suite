@@ -1,12 +1,29 @@
+import mongoose from "mongoose";
 import { Complaint } from "../models/complaint.model.js";
-import fileUpload from "../utiles/uploadFile.js";
+import { GridFSBucket } from "mongodb";
 
+// import fileUpload from "../utiles/uploadFile.js";
+
+import multer from 'multer';
+const db = mongoose.connection;
+let gfs;
+db.once("open", () => {
+  gfs = new GridFSBucket(db.db, { bucketName: "uploads" });
+});
+
+
+// Initialize multer
+const fileUpload = multer({ dest: '../db/uploads' });
 // Create a new complaint
 const createComplaint = async (req, res) => {
     try {
+
+
+        console.log('create complaint hit');
         const { title, description } = req.body;
         const file = req.files.attachment;
 
+        // Validate inputs
         if (!title || !description) {
             return res.status(400).json({
                 success: false,
@@ -14,23 +31,57 @@ const createComplaint = async (req, res) => {
             });
         }
 
-        const userId = req.user?.userId;
-        if (!userId) {
-            return res.status(401).json({
-                success: false,
-                message: "Unauthorized. User ID is missing.",
+        // const userId = req.user?.userId;
+        // if (!userId) {
+        //     return res.status(401).json({
+        //         success: false,
+        //         message: "Unauthorized. User ID is missing.",
+        //     });
+        // }
+
+        // Save file to GridFS
+        // Declare attachmentId before usage
+        let attachmentId = null;
+
+        // Save file to GridFS if a file is provided
+        if (file) {
+            console.log("Uploading file...");
+
+            // Use a Promise to handle the stream asynchronously
+            const uploadFile = new Promise((resolve, reject) => {
+                const uploadStream = gfs.openUploadStream(file.name, {
+                    contentType: file.mimetype,
+                });
+
+                uploadStream.on("finish", () => {
+                    console.log("File upload completed");
+                    resolve(uploadStream.id);
+                });
+
+                uploadStream.on("error", (error) => {
+                    console.error("File upload error", error);
+                    reject(error);
+                });
+
+                // Pipe file data to the upload stream
+                uploadStream.end(file.data);
             });
+
+            // Await the file upload to complete and get the file ID
+            attachmentId = await uploadFile;
+            console.log("Uploaded attachmentId:", attachmentId);
         }
-        const upload = await fileUpload(file, process.env.FOLDER)
+
+        // Create a new complaint
         const newComplaint = await Complaint.create({
             title,
             description,
-            status: "pending",
-            attachment:upload.secure_url,
-            userId,
+            attachmentId,
+            status: "pending", // Default status
         });
-
-        res.status(201).json({
+      
+console.log(newComplaint, "newComplaint")
+        res.status(200).json({
             success: true,
             message: "Complaint created successfully.",
             complaint: newComplaint,
@@ -43,6 +94,7 @@ const createComplaint = async (req, res) => {
         });
     }
 };
+
 
 // Fetch all complaints
 const getAllComplaints = async (req, res) => {

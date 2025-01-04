@@ -28,7 +28,7 @@ const Complaint = () => {
         status: 'PENDING',
         description: newComplaint.description,
       };
-
+      
       setComplaints([...complaints, newComplaintObj]); // Add complaint
       setNewComplaint({ name: '', title: '', description: '' }); // Reset form
       setShowForm(false); // Hide form after submission

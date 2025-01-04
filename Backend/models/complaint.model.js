@@ -1,42 +1,45 @@
 import mongoose from "mongoose";
-
 const complaintSchema = new mongoose.Schema(
     {
-        title:{
+        title: {
             type: String,
             required: true,
-            trim: true
+            trim: true,
         },
-        description:{
+        description: {
             type: String,
             required: true,
         },
-        attachment:{
-            type: String, // cloudinary url
-        },
-        status:{
+        attachmentId: {
+            type: mongoose.Schema.Types.ObjectId, // GridFS File ID
+            ref: "uploads.files",
+          },
+        status: {
             type: String,
-            enum:["pending", "progress", "closed"],
+            enum: ["new", "pending", "progress", "closed"],
             required: true,
+            default: "new", // Default status
         },
-        userId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        agentId: { // New field
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Must reference a user with `accountType: "Agent"`
-        },
-        resolutionId:{
+        // userId: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "User",
+        //     required: true,
+        // },
+        // agentId: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "User",
+        //     required: true,
+        // },
+        resolutionId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Resolution",
         },
-        feedbackId:{
+        feedbackId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Feedback",
         },
-    },{timestamps: true}
+    },
+    { timestamps: true }
 );
 
-export const Complaint = mongoose.model("Complaint", complaintSchema)
+export const Complaint = mongoose.model("Complaint", complaintSchema);

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 
 const Headers = () => {
   // State to control visibility of the complaint form modal
@@ -29,30 +30,46 @@ const Headers = () => {
   };
 
   // Function to handle form submission with validation
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    console.log("event", event)
     event.preventDefault();
 
-    // Validate title and description
-    let isValid = true;
-    let newErrors = { title: '', description: '' };
-
-    if (!title) {
-      newErrors.title = 'Title is required';
-      isValid = false;
-    }
-    if (!description) {
-      newErrors.description = 'Description is required';
-      isValid = false;
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    if (file) {
+    console.log("file", file)
+        formData.append('attachment', file); // Change 'file' to 'attachment'
     }
 
-    setErrors(newErrors);
+    
+      try {
+        // const token = localStorage.getItem('token'); // Retrieve token stored after login
+        // console.log('Token from frontend:',token );
+        await axios.post(
+          'http://localhost:3000/api/v1/complaint/create',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              // Authorization: `Bearer ${token}`, // Include token in Authorization header
+            },
+          }
+        );
 
-    if (isValid) {
-      // Submit form (this is just a placeholder, you can implement the actual form submission logic)
-      alert('Form submitted successfully');
-      closeModal();
+      
+        setTitle('');
+        setDescription('');
+        setFile(null);
+        closeModal();
+        alert('Complaint submitted successfully');
+    } catch (err) {
+        console.error('Error occurred while submitting the form:', err.response.data.error);
+        alert('Failed to submit the complaint. Please try again.');
     }
-  };
+};
+
+  
 
   // Clear the error message on input change
   const handleTitleChange = (e) => {

@@ -22,7 +22,6 @@
 // Replace :id with the specific complaint ID.
 
 
-
 import express from "express";
 import {
     createComplaint,
@@ -33,11 +32,15 @@ import {
     deleteComplaint,
 } from "../controllers/complaint.controller.js";
 import { auth } from "../middlewares/auth.middleware.js";
+// import multer from "multer";
 
+// // Initialize multer
+// const upload = multer({ dest: "../db/uploads" });
+// upload.single("attachment"), 
 const router = express.Router();
 
 // Route to create a new complaint
-router.post('/create', auth, createComplaint);
+router.post('/create', createComplaint);
 
 // Route to get all complaints
 router.get('/getAllComplaints', auth, getAllComplaints);

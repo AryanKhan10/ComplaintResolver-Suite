@@ -19,8 +19,9 @@ const createComplaint = async (req, res) => {
     try {
 
 
-        console.log('create complaint hit');
+        console.log('create complaint hit',req.body);
         const { title, description } = req.body;
+        console.log('ttl',title);
         const file = req.files.attachment;
 
         // Validate inputs

@@ -77,7 +77,8 @@ const LoginForm = () => {
             email: email.current.value,
             password: password.current.value,
           });
-          console.log(res);
+          console.log(res.data.token);
+          // localStorage.setItem('token',res.data.token)
           toast.success("loggedIn Successfully!");
           nav("/browse/card");
         } catch (error) {

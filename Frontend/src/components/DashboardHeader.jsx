@@ -41,7 +41,7 @@ const Headers = () => {
     console.log("file", file)
         formData.append('attachment', file); // Change 'file' to 'attachment'
     }
-
+    console.log(formData)
     
       try {
         // const token = localStorage.getItem('token'); // Retrieve token stored after login
@@ -50,6 +50,7 @@ const Headers = () => {
           'http://localhost:3000/api/v1/complaint/create',
           formData,
           {
+            withCredentials: true,
             headers: {
               'Content-Type': 'multipart/form-data',
               // Authorization: `Bearer ${token}`, // Include token in Authorization header

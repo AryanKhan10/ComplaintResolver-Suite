@@ -40,7 +40,7 @@ import { auth } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 // Route to create a new complaint
-router.post('/create', createComplaint);
+router.post('/create',auth, createComplaint);
 
 // Route to get all complaints
 router.get('/getAllComplaints', auth, getAllComplaints);

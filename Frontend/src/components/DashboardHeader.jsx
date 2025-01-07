@@ -44,8 +44,9 @@ const Headers = () => {
     console.log(formData)
     
       try {
-        // const token = localStorage.getItem('token'); // Retrieve token stored after login
-        // console.log('Token from frontend:',token );
+        const token = localStorage.getItem('token'); // Retrieve token stored after login
+        console.log('Token from frontend:',token );
+        
         await axios.post(
           'http://localhost:3000/api/v1/complaint/create',
           formData,
@@ -53,11 +54,12 @@ const Headers = () => {
             withCredentials: true,
             headers: {
               'Content-Type': 'multipart/form-data',
-              // Authorization: `Bearer ${token}`, // Include token in Authorization header
+              Authorization: `Bearer ${token}`, // Include token in Authorization header
             },
           }
         );
 
+      
       
         setTitle('');
         setDescription('');

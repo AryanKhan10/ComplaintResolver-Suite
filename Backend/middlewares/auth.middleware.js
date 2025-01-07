@@ -8,7 +8,11 @@ const auth = async (req, res, next) => {
         console.log("Cookies:", req.cookies.token);
         console.log("Body:", req.body);
         // extract token
-        const token = req.body.token || req.cookies.token || req.headers["authentication"].replace("Bearer ", "");
+        // const token = req.body.token || req.cookies.token || req.headers["authentication"].replace("Bearer ", "");
+        const token =
+                req.body.token ||
+                req.cookies.token ||
+                req.headers["authorization"]?.replace("Bearer ", "");
 
         //verify token 
         console.log("token")
@@ -22,7 +26,7 @@ const auth = async (req, res, next) => {
         try {
             const payload = jwt.verify(token, process.env.SECRET_KEY);
             req.user = payload;
-            // console.log("user",req.user)
+            console.log("user",req.user)
         } catch (error) {
             return res.status(401).json({
                 success: false,

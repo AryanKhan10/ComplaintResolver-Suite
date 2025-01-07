@@ -11,7 +11,7 @@ db.once("open", () => {
   gfs = new GridFSBucket(db.db, { bucketName: "uploads" });
 });
 
-
+console.log('entering complaint controller')
 // Initialize multer
 const fileUpload = multer({ dest: '../db/uploads' });
 // Create a new complaint
@@ -32,13 +32,13 @@ const createComplaint = async (req, res) => {
             });
         }
 
-        // const userId = req.user?.userId;
-        // if (!userId) {
-        //     return res.status(401).json({
-        //         success: false,
-        //         message: "Unauthorized. User ID is missing.",
-        //     });
-        // }
+        const userId = req.user?.userId;
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized. User ID is missing.",
+            });
+        }
 
         // Save file to GridFS
         // Declare attachmentId before usage
@@ -50,34 +50,38 @@ const createComplaint = async (req, res) => {
 
             // Use a Promise to handle the stream asynchronously
             const uploadFile = new Promise((resolve, reject) => {
+                console.log("Starting file upload...");
                 const uploadStream = gfs.openUploadStream(file.name, {
                     contentType: file.mimetype,
                 });
-
+            
                 uploadStream.on("finish", () => {
                     console.log("File upload completed");
                     resolve(uploadStream.id);
                 });
-
+            
                 uploadStream.on("error", (error) => {
                     console.error("File upload error", error);
                     reject(error);
                 });
-
-                // Pipe file data to the upload stream
+            
                 uploadStream.end(file.data);
+                console.log("File stream ended.");
             });
-
+            
+            console.log("Waiting for file upload to complete...");
             // Await the file upload to complete and get the file ID
             attachmentId = await uploadFile;
             console.log("Uploaded attachmentId:", attachmentId);
         }
 
+            console.log('hit point')
         // Create a new complaint
         const newComplaint = await Complaint.create({
             title,
             description,
             attachmentId,
+            userId,
             status: "pending", // Default status
         });
       

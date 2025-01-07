@@ -20,16 +20,16 @@ const complaintSchema = new mongoose.Schema(
             required: true,
             default: "new", // Default status
         },
-        // userId: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "User",
-        //     required: true,
-        // },
-        // agentId: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "User",
-        //     required: true,
-        // },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+        agentId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: false,
+        },
         resolutionId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Resolution",

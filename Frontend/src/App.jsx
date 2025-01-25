@@ -1,15 +1,17 @@
 
 import './App.css';
 import Body from './components/body';
+import Department from './components/Department';
 import Header from './components/Header';
 
-const App = ()=>{
-  return(
+const App = () => {
+  return (
     <>
-    
-   <Header/>
-    <Body/>
-   
+      <Header />
+      {/* <Department /> */}
+
+      <Body />
+
     </>
   )
 }

@@ -46,12 +46,12 @@ const LoginForm = () => {
       setiserror(check);
       if (!check) {
         try {
-        
+
           const res = await API.post(
             "/auth/sendOTP",
             { email: email.current.value },
           );
-          
+
           console.log(res);
           toast.success(`OTP Send to ${email.current.value}`);
 
@@ -170,7 +170,7 @@ const LoginForm = () => {
             </div>
           </form>
         </div>
-      ) :(
+      ) : (
         <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-lg">
           {/* Registration Form */}
           <h1 className="text-2xl font-bold text-gray-700 text-center mb-6">
@@ -221,14 +221,14 @@ const LoginForm = () => {
                   className="w-full border text-sm border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 >
-                  <option > 
+                  <option >
                     Select your Account Type
                   </option>
                   <option value="Ordinary">Ordinary</option>
                   <option value="Agent">Agent</option>
                   <option value="Admin">Admin</option>
                 </select>
-             
+
                 <label
                   htmlFor="cnic"
                   className="block text-sm font-medium text-gray-700 mb-2"

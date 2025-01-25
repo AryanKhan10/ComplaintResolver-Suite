@@ -9,10 +9,10 @@ import {
 import { auth, isAdmin } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
-router.post('/createDepartment',auth, createDepartment);
-router.get('/getAllDepartments',auth,isAdmin, getAllDepartments);
-router.get('/getDepartment/:id',auth, getDepartmentById);
-router.put('/updateDepartment/:id',auth, updateDepartment);
-router.delete('/deleteDepartment/:id',auth, deleteDepartment);
+router.post('/createDepartment', auth, isAdmin, createDepartment);
+router.get('/getAllDepartments', auth, isAdmin, getAllDepartments);
+router.get('/getDepartment/:id', auth, isAdmin, getDepartmentById);
+router.put('/updateDepartment/:id', auth, isAdmin, updateDepartment);
+router.delete('/deleteDepartment/:id', auth, isAdmin, deleteDepartment);
 
 export default router;

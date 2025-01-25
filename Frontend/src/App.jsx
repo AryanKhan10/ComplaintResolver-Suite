@@ -8,7 +8,7 @@ const App = () => {
   return (
     <>
       <Header />
-      {/* <Department /> */}
+      <Department />
 
       <Body />
 

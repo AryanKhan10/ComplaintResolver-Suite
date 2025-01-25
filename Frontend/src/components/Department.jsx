@@ -25,22 +25,66 @@ const Modal = ({ isOpen, title, children, onClose }) => {
     );
 };
 
-const DepartmentCard = ({ department, onDelete }) => (
-    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg rounded-xl p-6 flex flex-col justify-between">
-        <div>
-            <h3 className="text-xl font-bold mb-2">{department.departmentName}</h3>
-            <p className="text-gray-200">
-                Agent ID: <span className="font-medium">{department.agentId || "N/A"}</span>
-            </p>
+const DepartmentCard = ({ department, onDelete }) => {
+    const activeComplaints = Math.floor(Math.random() * 10);
+    const resolvedComplaints = Math.floor(Math.random() * 15);
+
+    const departmentInfo = {
+        activeComplaints,
+        resolvedComplaints,
+        totalComplaints: activeComplaints + resolvedComplaints,
+    };
+
+    return (
+        <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-500 py-4 px-6">
+                <h3 className="text-xl font-bold text-white truncate">{department.departmentName}</h3>
+            </div>
+            <div className="p-6 flex flex-col justify-between h-full">
+                <div>
+                    <div className="mb-2">
+                        <p className="text-gray-700 font-medium">Type:</p>
+                        <p className="text-gray-600">{department.departmentType}</p>
+                    </div>
+                    <div className="mb-2">
+                        <p className="text-gray-700 font-medium">Active Complaints:</p>
+                        <p className="text-gray-600">{departmentInfo.activeComplaints}</p>
+                    </div>
+                    <div className="mb-2">
+                        <p className="text-gray-700 font-medium">Resolved Complaints:</p>
+                        <p className="text-gray-600">{departmentInfo.resolvedComplaints}</p>
+                    </div>
+                    <div className="mb-4">
+                        <p className="text-gray-700 font-medium">Total Complaints:</p>
+                        <p className="text-gray-600">{departmentInfo.totalComplaints}</p>
+                    </div>
+                    <div className="mb-2">
+                        <p className="text-gray-700 font-medium">Location:</p>
+                        <p className="text-gray-600">{department.departmentLocation}</p>
+                    </div>
+                    <div className="mb-2">
+                        <p className="text-gray-700 font-medium">Head of Department:</p>
+                        <p className="text-gray-600">{department.departmentHead}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-700 font-medium">Total Employees:</p>
+                        <p className="text-gray-600">{department.departmentEmployees}</p>
+                    </div>
+                </div>
+                <div className="mt-auto"> {/* Aligns button to bottom */}
+                    <button
+                        onClick={() => onDelete(department._id)}
+                        className="w-full bg-red-500 hover:bg-red-700 text-white font-medium py-2 rounded-md transition duration-300"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
         </div>
-        <button
-            onClick={() => onDelete(department._id)}
-            className="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-all duration-300"
-        >
-            Delete
-        </button>
-    </div>
-);
+    );
+};
+
+
 
 function Department() {
     const { userId } = useContext(AppContext);
@@ -120,7 +164,7 @@ function Department() {
             </div>
 
             <div className="bg-white shadow-md rounded-2xl px-8 pt-6 pb-8">
-                <h2 className="text-2xl font-semibold text-gray-700 mb-6">Department List</h2>
+                <h2 className="text-2xl font-semibold text-gray-700 mb-6">Departments List</h2>
 
                 {isLoading ? (
                     <div className="flex justify-center py-10">
@@ -161,7 +205,71 @@ function Department() {
                             value={formData.departmentName}
                             onChange={handleInputChange}
                             className="shadow border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter department name"
+                            placeholder="Enter Department Name"
+                            required
+                        />
+                        <label
+                            htmlFor="departmentLocation"
+                            className="block text-gray-700 font-bold mb-2"
+                        >
+                            Location
+                        </label>
+                        <input
+                            type="text"
+                            id="departmentLocation"
+                            name="departmentLocation"
+                            value={formData.departmentLocation}
+                            onChange={handleInputChange}
+                            className="shadow border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter Department Location"
+                            required
+                        />
+                        <label
+                            htmlFor="departmentType"
+                            className="block text-gray-700 font-bold mb-2"
+                        >
+                            Type
+                        </label>
+                        <input
+                            type="text"
+                            id="departmentType"
+                            name="departmentType"
+                            value={formData.departmentType}
+                            onChange={handleInputChange}
+                            className="shadow border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter Department Type"
+                            required
+                        />
+                        <label
+                            htmlFor="departmentHead"
+                            className="block text-gray-700 font-bold mb-2"
+                        >
+                            Head of Department
+                        </label>
+                        <input
+                            type="text"
+                            id="departmentHead"
+                            name="departmentHead"
+                            value={formData.departmentHead}
+                            onChange={handleInputChange}
+                            className="shadow border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter Department Head Name"
+                            required
+                        />
+                        <label
+                            htmlFor="departmentEmployees"
+                            className="block text-gray-700 font-bold mb-2"
+                        >
+                            Employees Count
+                        </label>
+                        <input
+                            type="text"
+                            id="departmentEmployees"
+                            name="departmentEmployees"
+                            value={formData.departmentEmployees}
+                            onChange={handleInputChange}
+                            className="shadow border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Number of Employees"
                             required
                         />
                     </div>

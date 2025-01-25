@@ -1,5 +1,5 @@
 import express from 'express';
-import {Department }from '../models/department.model.js';
+import { Department } from '../models/department.model.js';
 
 // const createDepartment = async (req, res) => {
 //     try {
@@ -30,7 +30,7 @@ import {Department }from '../models/department.model.js';
 const createDepartment = async (req, res) => {
     try {
         // Extract department name from body (preferred) or params
-        const { departmentName } = req.body; // Change to req.params if using URL params
+        const { departmentName, departmentLocation, departmentType, departmentEmployees, departmentHead } = req.body; // Change to req.params if using URL params
         console.log('Data fetched for department');
         // Validate input
         if (!departmentName || departmentName.trim() === '') {
@@ -38,7 +38,7 @@ const createDepartment = async (req, res) => {
         }
 
         // Create new department instance
-        const department = new Department({ departmentName });
+        const department = new Department({ departmentName, departmentLocation, departmentType, departmentEmployees, departmentHead });
 
         // Save to database
         const saveDepartment = await department.save();

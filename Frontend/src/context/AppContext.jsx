@@ -6,8 +6,6 @@ export const AppContext = createContext();
 export default function AppContextProvider({ children }) {
     const [token, setToken] = useState(null)
     const [userId, setUserID] = useState(null)
-    console.log(token)
-    console.log(userId)
     useEffect(() => {
         if (token) {
             const decodedToken = jwtDecode(token);

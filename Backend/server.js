@@ -9,10 +9,10 @@ dotenv.config()
 const app = express()
 app.use(
     cors({
-      origin: "http://localhost:5174",
-      credentials: true,
+        origin: "http://localhost:5173",
+        credentials: true,
     })
-  );
+);
 app.use(cookieParser())
 app.use(express.json());
 import auth from "./routes/auth.route.js"
@@ -23,8 +23,8 @@ import department from "./routes/department.route.js"
 import feedback from "./routes/feedback.route.js"
 
 app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : '/tmp/'
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
 }));
 
 // Mounting Api routes

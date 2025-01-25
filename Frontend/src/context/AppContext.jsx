@@ -1,35 +1,27 @@
-import { createContext, useState, useEffect } from "react";
+
+import { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 export const AppContext = createContext();
-
 export default function AppContextProvider({ children }) {
-    const [token, setToken] = useState(null);
-    const [userId, setUserId] = useState(null);
-
+    const [token, setToken] = useState(null)
+    const [userId, setUserID] = useState(null)
+    console.log(token)
+    console.log(userId)
     useEffect(() => {
         if (token) {
-            try {
-                const decodedToken = jwtDecode(token);
-                if (decodedToken?.id) {
-                    setUserId(decodedToken.id);
-                } else {
-                    throw new Error("Invalid token: User ID not found.");
-                }
-            } catch (error) {
-                console.error("Failed to decode token:", error);
-                setUserId(null);
-            }
-        } else {
-            setUserId(null);
+            const decodedToken = jwtDecode(token);
+            console.log(decodedToken)
+            setUserID(decodedToken.userId)
         }
-    }, [token]);
+    }, [token])
 
     const value = {
         token,
         setToken,
-        userId,
-    };
-
-    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+        userId
+    }
+    return <AppContext.Provider value={value}>
+        {children}
+    </AppContext.Provider>
 }

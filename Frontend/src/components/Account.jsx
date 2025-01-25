@@ -1,26 +1,64 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { AppContext } from "../context/AppContext";
+import API from "../../api/api";
+import toast from "react-hot-toast";
 
 const Account = () => {
-  const [userInfo, setUserInfo] = useState({
-    fullName: 'John Doe',
-    email: 'john.doe@example.com',
-    address: '1234 Elm Street, Apartment 56B, Springfield, IL 62701',
-    userId: 'user_00123',
+  const { userId } = useContext(AppContext);
+const navigate= useNavigate()
+  const [IsUpdatingPassword, setIsUpdatingPassword]=useState(false);
+  const [passwordData, setPasswordData]=useState({
+    password: '',
+    confirmPassword: ''
   });
-
+  // const [confPassword, setConfPassword]=useState(null);
+  const [userInfo, setUserInfo] = useState({});
+  const [formData, setFormData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(userInfo);
 
+  // Fetch user data
+  const getUser = async () => {
+    try {
+      const res = await API.get(`/user/getUser/${userId}`);
+      setUserInfo(res.data.user); // Update userInfo
+    } catch (error) {
+      console.log(error);
+      toast.error("Cannot get user...");
+    }
+  };
+
+  // Sync formData with userInfo when userInfo is fetched
+  useEffect(() => {
+    setFormData(userInfo); // Update formData when userInfo changes
+  }, [userInfo]);
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordData({ ...passwordData, [name]: value });
+  };
   // Handle input changes in the form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Save changes and update the user info
-  const handleSaveChanges = () => {
-    setUserInfo(formData);
-    setIsEditing(false);
+  const handleSaveChanges = async() => {
+    try {
+      console.log(userId)
+      const res = await API.put(`/user/updateUser/${userId}`, formData); // API call to update user details
+      setUserInfo(res.data.user); // Update the local state with the updated user data
+      setIsEditing(false);
+      toast.success('Details updated successfully!');
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to update details...');
+    }
   };
 
   // Discard changes and reset form
@@ -29,12 +67,93 @@ const Account = () => {
     setIsEditing(false);
   };
 
+  // Update password
+  const handlePasswordUpdate = async () => {
+    const { password, confirmPassword } = passwordData;
+
+    // Validate passwords
+    if (password !== confirmPassword) {
+      toast.error('New password and confirm password do not match.');
+      return;
+    }
+
+    try {
+      console.log(passwordData)
+      await API.put(`/user/resetPass/${userId}`, passwordData);
+      toast.success('Password updated successfully!');
+      setPasswordData({
+        password: '',
+        confirmPassword: '',
+      });
+      setIsUpdatingPassword(false);
+      navigate('/')
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || 'Failed to update password.');
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-start bg-gray-100 h-screen p-5">
-      <div style={{ transform: 'translate(14%, 0%)' }} className="w-full max-w-4xl bg-gray-300 rounded-md shadow-md p-5">
+      <div className="mb-10 flex justify-end w-full">
+        <button
+                    type="button"
+                    onClick={()=>setIsUpdatingPassword(prev=>!prev)}
+                    className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
+                  >
+                    Change Password
+
+        </button>
+        </div>
+      
+        {IsUpdatingPassword && 
+          <div style={{ transform: "translate(14%, 0%)" }}
+          className="w-full max-w-4xl bg-gray-300 rounded-md shadow-md p-5 my-5">
+            <div>
+                <label className="block text-gray-700 font-bold mb-2">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={passwordData.password}
+                  onChange={handlePasswordChange}
+                  className="w-full border px-4 py-2 rounded-md"
+                  placeholder="Enter New Password"
+                />
+              </div>
+            <div>
+                <label className="block text-gray-700 font-bold mb-2">
+                  Confirm Password
+                </label>
+                <input
+  type="password"
+  name="confirmPassword"
+  value={passwordData.confirmPassword}
+  onChange={handlePasswordChange}
+  className="w-full border px-4 py-2 rounded-md"
+  placeholder="Enter Confirm Password"
+/>
+
+              </div>
+
+              <button
+                    type="button"
+                    onClick={handlePasswordUpdate}
+                    className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 my-4"
+                  >
+                    Change
+
+              </button>
+          </div>
+        }
+      <div
+        style={{ transform: "translate(14%, 0%)" }}
+        className="w-full max-w-4xl bg-gray-300 rounded-md shadow-md p-5"
+      >
         {!isEditing ? (
-          // Display user information
           <>
+            {/* Display user information */}
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-xl font-bold text-gray-800">Account</h2>
               <button
@@ -44,10 +163,12 @@ const Account = () => {
                 Edit
               </button>
             </div>
-
             <div className="bg-gray-100 p-4 rounded-md">
               <p className="text-gray-700 mb-2">
-                <strong>Full Name:</strong> {userInfo.fullName}
+                <strong>First Name:</strong> {userInfo.firstName}
+              </p>
+              <p className="text-gray-700 mb-2">
+                <strong>Last Name:</strong> {userInfo.lastName}
               </p>
               <p className="text-gray-700 mb-2">
                 <strong>Email Address:</strong> {userInfo.email}
@@ -55,28 +176,37 @@ const Account = () => {
               <p className="text-gray-700">
                 <strong>Address:</strong> {userInfo.address}
               </p>
-              <p className="text-gray-700 mt-4">
-                <strong>User ID:</strong> {userInfo.userId}
-              </p>
             </div>
           </>
         ) : (
-          // Display form for editing user information
           <>
+            {/* Display form for editing user information */}
             <h2 className="text-xl font-bold text-gray-800 mb-5">Edit Account</h2>
-
             <form className="space-y-4">
               <div>
                 <label className="block text-gray-700 font-bold mb-2">
-                  Full Name
+                  First Name
                 </label>
                 <input
                   type="text"
-                  name="fullName"
-                  value={formData.fullName}
+                  name="firstName"
+                  value={formData.firstName || ""}
                   onChange={handleInputChange}
                   className="w-full border px-4 py-2 rounded-md"
-                  placeholder="Enter full name"
+                  placeholder="Enter first name"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName || ""}
+                  onChange={handleInputChange}
+                  className="w-full border px-4 py-2 rounded-md"
+                  placeholder="Enter last name"
                 />
               </div>
               <div>
@@ -86,7 +216,7 @@ const Account = () => {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
+                  value={formData.email || ""}
                   onChange={handleInputChange}
                   className="w-full border px-4 py-2 rounded-md"
                   placeholder="Enter email address"
@@ -98,7 +228,7 @@ const Account = () => {
                 </label>
                 <textarea
                   name="address"
-                  value={formData.address}
+                  value={formData.address || ""}
                   onChange={handleInputChange}
                   className="w-full border px-4 py-2 rounded-md"
                   placeholder="Enter address"

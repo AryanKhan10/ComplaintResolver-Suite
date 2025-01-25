@@ -194,7 +194,7 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+    console.log("id",id);
 
     // Find the user by ID
     const user = await User.findById(id);
@@ -242,10 +242,10 @@ const updateUserById = async (req, res) => {
 //updating user password
 const updateUserPassword = async (req, res) => {
   try {
-    // const { id } = req.params;
+    const { id } = req.params || req.user.userId;
     // console.log("usr req ",req.user)
-    const id = req.user.userId;
-    // console.log("iddd",id)
+    // const id = req.user.userId;
+    console.log("iddd",id)
     const { password, confirmPassword } = req.body;
 
     if (!password || !confirmPassword) {

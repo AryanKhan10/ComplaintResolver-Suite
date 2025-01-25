@@ -1,11 +1,24 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export const AppContext = createContext();
 export default function AppContextProvider({children}){
     const [token, setToken] = useState(null)
+    const [userId,setUserID]=useState(null)
+    console.log(token)
+    console.log(userId)
+    useEffect(()=>{
+        if(token){
+            const decodedToken = jwtDecode(token);
+            console.log(decodedToken)
+            setUserID(decodedToken.userId)
+        }
+    },[token])
+
     const value={
         token,
-        setToken
+        setToken,
+        userId
     }
     return  <AppContext.Provider value={value}>
                 {children}

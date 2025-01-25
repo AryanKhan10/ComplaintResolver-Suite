@@ -73,7 +73,7 @@ const LoginForm = () => {
         }
       }
     } else {
-      if (!Message) {
+      // if (!Message) {
         try {
           const res = await API.post("/user/login", {
             email: email.current.value,
@@ -83,15 +83,15 @@ const LoginForm = () => {
 
           setToken(res.data.token)
           console.log(token)
-          // localStorage.setItem('token',res.data.token)
+          localStorage.setItem('token',res.data.token)
           toast.success("loggedIn Successfully!");
           nav("/browse/card");
         } catch (error) {
           alert("Error Logging");
           console.log(error);
         }
-      }
-      setiserror(Message);
+      // }
+      // setiserror(Message);
     }
   };
 

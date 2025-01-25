@@ -3,10 +3,10 @@ import jwt from "jsonwebtoken"
 const auth = async (req, res, next) => {
     try {
         console.log("hit")
-        console.log("Auth middleware hit");
-        console.log("Headers:", req.headers);
-        console.log("Cookies:", req.cookies.token);
-        console.log("Body:", req.body);
+        // console.log("Auth middleware hit");
+        // console.log("Headers:", req.headers);
+        // console.log("Cookies:", req.cookies.token);
+        // console.log("Body:", req.body);
         // extract token
         // const token = req.body.token || req.cookies.token || req.headers["authentication"].replace("Bearer ", "");
         const token =

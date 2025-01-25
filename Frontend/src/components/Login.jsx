@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Validate from "../utils/validate";
 import { useNavigate } from "react-router";
 import API from "../../api/api";
 import toast from "react-hot-toast";
+import { AppContext } from "../context/AppContext";
 const LoginForm = () => {
   const nav = useNavigate();
+  const {setToken,token}=useContext(AppContext)
   // Create state for toggling between forms
   const [isSignIn, setSignIn] = useState(true);
   const [Iserror, setiserror] = useState(null);
@@ -77,7 +79,10 @@ const LoginForm = () => {
             email: email.current.value,
             password: password.current.value,
           });
-          console.log(res.data.token);
+          // console.log(res.data.token);
+
+          setToken(res.data.token)
+          console.log(token)
           // localStorage.setItem('token',res.data.token)
           toast.success("loggedIn Successfully!");
           nav("/browse/card");

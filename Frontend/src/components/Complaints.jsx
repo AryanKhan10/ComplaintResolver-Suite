@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import API from '../../api/api'
 const Complaint = () => {
   const [complaints, setComplaints] = useState([
     {
@@ -10,7 +10,18 @@ const Complaint = () => {
       description: 'This is a description of the complaint for John Doe.',
     },
   ]);
-  
+  const getData = async()=>{
+    try {
+      const res = await API.get("/complaint/getAllComplaints")
+      console.log(res.data.complaints)
+    } catch (error) {
+      console.log(`cannot get complaint...${error}`)
+    }
+  }
+  useEffect( ()=>{
+    getData()
+  },[getData])
+
   const [newComplaint, setNewComplaint] = useState({ name: '', title: '', description: '' });
   const [searchQuery, setSearchQuery] = useState('');
   const [showForm, setShowForm] = useState(false); // State to control form visibility

@@ -31,7 +31,7 @@ import {
     updateComplaintStatus,
     deleteComplaint,
 } from "../controllers/complaint.controller.js";
-import { auth } from "../middlewares/auth.middleware.js";
+import { auth,isAdmin } from "../middlewares/auth.middleware.js";
 // import multer from "multer";
 
 // // Initialize multer
@@ -43,13 +43,13 @@ const router = express.Router();
 router.post('/create',auth, createComplaint);
 
 // Route to get all complaints
-router.get('/getAllComplaints', auth, getAllComplaints);
+router.get('/getAllComplaints', auth,isAdmin, getAllComplaints);
 
 // Route to get a specific complaint by ID
 router.get('/getComplaint/:id', auth, getComplaintById);
 
 // Route to update complaint details
-router.put('/updateComplaint/:id', auth, updateComplaint);
+router.put('/updateComplaint/:id', auth,isAdmin, updateComplaint);
 
 // Route to update complaint status
 router.put('/update-status/:id', auth, updateComplaintStatus);

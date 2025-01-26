@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { AppContext } from "../context/AppContext";
 const LoginForm = () => {
   const nav = useNavigate();
-  const {setToken,token}=useContext(AppContext)
+  const {setToken,token,role}=useContext(AppContext)
   // Create state for toggling between forms
   const [isSignIn, setSignIn] = useState(true);
   const [Iserror, setiserror] = useState(null);
@@ -84,8 +84,24 @@ const LoginForm = () => {
           setToken(res.data.token)
           console.log(token)
           localStorage.setItem('token',res.data.token)
-          toast.success("loggedIn Successfully!");
-          nav("/browse/card");
+          if(role=="Admin"){
+            console.log("admin")
+            toast.success("loggedIn Successfully!");
+            nav("/admin/panel");
+            return
+          }
+          if(role=="Agent"){
+            console.log("agent")
+            toast.success("loggedIn Successfully!");
+            nav("/browse/card");
+            return
+          }
+          if(role=="Ordinary"){
+            console.log("ord")
+            toast.success("loggedIn Successfully!");
+            nav("/browse/card");
+            return
+          }
         } catch (error) {
           alert("Error Logging");
           console.log(error);

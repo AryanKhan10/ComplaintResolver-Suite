@@ -70,7 +70,7 @@ const isOrdinary = async (req, res, next) => {
 //admin
 const isAdmin = async (req, res, next) => {
     try {
-        // console.log(req.user)
+        console.log("hii")
         if (req.user.accountType !== "Admin") {
             return res.status(401).json({
                 success: false,

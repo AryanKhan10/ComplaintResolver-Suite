@@ -280,7 +280,8 @@ const updateUserPassword = async (req, res) => {
 const deleteUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
+    console.log(id)
+    const user = await User.findByIdAndDelete({_id:id});
     console.log("user Deleted ", user);
     res.status(201).json("User deleted successfully");
   } catch (err) {

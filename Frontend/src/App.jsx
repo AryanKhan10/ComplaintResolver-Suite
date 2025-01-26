@@ -1,5 +1,7 @@
 import './App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from './context/AppContext';
 import LoginForm from './components/Login';
 import Browse from './components/Browse';
 import OTPVerification from './components/OTPwait';
@@ -11,9 +13,12 @@ import Account from './components/Account';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import About from './components/ABout';
-
+import Admin from './components/Admin'; // Admin panel component
+import AdminPanel from './components/AdminPanel'; // Admin panel component
+import User from './components/User'
 const App = () => {
-  // Setting up routes using createBrowserRouter
+  const { role } = useContext(AppContext); // Access the user from context
+console.log(role)
   const router = createBrowserRouter([
     {
       path: "/",
@@ -45,12 +50,21 @@ const App = () => {
       path: "/success",
       element: <SuccessScreen />,
     },
+    {
+      path: "/admin",
+      element: role === "Admin" ? <Admin /> : <Navigate to="/login" replace />,
+      children: role === "Admin" && [
+        { path: "panel", element: <AdminPanel /> },
+        { path: "user", element: <User /> },
+        { path: "account", element: <Account /> },
+      ],
+    },
+    
   ]);
 
   return (
     <>
       <Navbar />
-      {/* Add the RouterProvider here */}
       <RouterProvider router={router} />
     </>
   );

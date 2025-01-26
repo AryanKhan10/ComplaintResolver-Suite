@@ -211,10 +211,12 @@ const updateComplaint = async (req, res) => {
 // Update the status of a complaint
 const updateComplaintStatus = async (req, res) => {
     try {
+        console.log(req.params)
         const { id } = req.params;
         const { status } = req.body;
         const { accountType } = req.user;
 
+        console.log(status)
         if (!["Admin", "Agent"].includes(accountType)) {
             return res.status(403).json({
                 success: false,

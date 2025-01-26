@@ -18,7 +18,7 @@ import AdminPanel from './components/AdminPanel'; // Admin panel component
 import User from './components/User'
 const App = () => {
   const { role } = useContext(AppContext); // Access the user from context
-console.log(role)
+  console.log(role)
   const router = createBrowserRouter([
     {
       path: "/",
@@ -59,7 +59,7 @@ console.log(role)
         { path: "account", element: <Account /> },
       ],
     },
-    
+
   ]);
 
   return (

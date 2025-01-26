@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import API from '../../api/api';
-// import API from '../../api/api'
+// import axios from 'axios';
+import API from '../../api/api'
+
+
+
 
 const Complaint = () => {
   const [complaint, setComplaints] = useState([]);
@@ -13,22 +15,27 @@ const Complaint = () => {
       const fetchComplaints = async () => {
         try {
           // const token = localStorage.getItem("token"); // Assuming the JWT token is stored in localStorage
-          // const response = await axios.get("http://localhost:3000/api/v1/getAllComplaints", {
+          // const response = await axios.get("http://localhost:3000/api/v1/complaint/getAllComplaints", {
           //   headers: {
           //     Authorization: `Bearer ${token}`, // Add the token for authentication
           //   },
           // });
+          // console.log('response is', response.data);
   
           // if (response.data.success) {
           //   const complaintsData = Array.isArray(response.data.complaints)
           //     ? response.data.complaints
           //     : []; // Ensure it's an array
-          const res = await API.get("/complaint/getAllComplaints")
-          console.log(res.data)
-            setComplaints(res.data.complaints);
+          //   setComplaints(complaintsData);
           // } else {
           //   console.error(response.data.message);
           // }
+
+          const response = await API.get("/complaint/getAllComplaints");
+          console.log('response is', response.data);
+
+          setComplaints(response.data.complaints);
+
         } catch (error) {
           console.error("Error fetching complaints:", error.response?.data?.message || error.message);
         }
@@ -37,8 +44,8 @@ const Complaint = () => {
       fetchComplaints();
     }, []);
     console.log('complaints are', complaint);
-    const pendingComplaints = complaint.filter((c) => c.status === "PENDING");
-    const resolvedComplaints = complaint.filter((c) => c.status === "RESOLVED");
+    const pendingComplaints = complaint.filter((c) => c.status === "pending");
+    const resolvedComplaints = complaint.filter((c) => c.status === "closed");
 
   // Close the modal
   const closeModal = () => {
@@ -68,11 +75,13 @@ const Complaint = () => {
             {pendingComplaints.length > 0 ? (
               pendingComplaints.map((complaint, index) => (
                 <tr key={index} className="text-center">
+                 
                   <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.id}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.name}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.date}</td>
+                  <td className="border border-gray-300 px-4 py-2">{complaint._id}</td>
+                  <td className="border border-gray-300 px-4 py-2">{complaint.title}</td>
+                  <td className="border border-gray-300 px-4 py-2">{new Date(complaint.createdAt).toLocaleDateString()}</td>
                   <td className="border border-gray-300 px-4 py-2">{complaint.status}</td>
+
                   <td className="border border-gray-300 px-4 py-2">
                     <button
                       onClick={() => setSelectedComplaint(complaint)}

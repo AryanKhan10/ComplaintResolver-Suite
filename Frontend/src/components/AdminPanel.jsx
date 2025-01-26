@@ -100,8 +100,8 @@ import API from "../../api/api"
               {/* <td className="border border-gray-200 p-2 text-center">{complaint._id}</td> */}
               <td className="border border-gray-200 p-2">{index+1}</td>
               {/* <td className="border border-gray-200 p-2">{complaint.date}</td> */}
-              <td className="border border-gray-200 p-2">{complaint.description}</td>
               <td className="border border-gray-200 p-2">{complaint.status}</td>
+              <td className="border border-gray-200 p-2">{complaint.description}</td>
               <td className="border border-gray-200 p-2">
                 <select
                   value={complaint.status}

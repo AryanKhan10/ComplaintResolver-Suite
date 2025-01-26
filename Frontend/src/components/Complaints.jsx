@@ -108,24 +108,35 @@ const Complaint = () => {
         <h2 className="text-lg font-bold text-gray-800 mb-4">Resolved Complaints</h2>
         <table className="w-full border-collapse border border-gray-200">
           <thead>
-            <tr className="bg-gray-100">
+          <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2">Serial No.</th>
               <th className="border border-gray-300 px-4 py-2">Complaint ID</th>
               <th className="border border-gray-300 px-4 py-2">Name</th>
               <th className="border border-gray-300 px-4 py-2">Date</th>
               <th className="border border-gray-300 px-4 py-2">Status</th>
+              <th className="border border-gray-300 px-4 py-2">Action</th>
             </tr>
           </thead>
           <tbody>
             {resolvedComplaints.length > 0 ? (
               resolvedComplaints.map((complaint, index) => (
                 <tr key={index} className="text-center">
-                  <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.id}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.name}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.date}</td>
-                  <td className="border border-gray-300 px-4 py-2">{complaint.status}</td>
-                </tr>
+                 
+                <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
+                <td className="border border-gray-300 px-4 py-2">{complaint._id}</td>
+                <td className="border border-gray-300 px-4 py-2">{complaint.title}</td>
+                <td className="border border-gray-300 px-4 py-2">{new Date(complaint.createdAt).toLocaleDateString()}</td>
+                <td className="border border-gray-300 px-4 py-2">{complaint.status}</td>
+
+                <td className="border border-gray-300 px-4 py-2">
+                  <button
+                    onClick={() => setSelectedComplaint(complaint)}
+                    className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
               ))
             ) : (
               <tr>

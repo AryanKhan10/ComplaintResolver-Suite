@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f6f9;
+  overflow-x: hidden;
 }
 
 .login-container {
@@ -97,3 +98,11 @@ body {
   text-decoration: underline;
 }
 
+.graph-card{
+  overflow: hidden;
+  height: 500px;
+  width: 100%;
+  scrollbar-width: none;
+  scroll-behavior: none;
+  object-fit: contain;
+}

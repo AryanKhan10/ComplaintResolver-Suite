@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from 'react-intersection-observer';
 import hamdanImg from "../assets/hamdanraza.png";
@@ -61,7 +60,7 @@ export default function Team() {
             </div>
 
             {/* Team Members Grid */}
-            <div className="bg-g grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-4/5 mx-auto">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-4/5 mx-auto">
                 {paginatedMembers.map((member, index) => (
                     <div
                         key={index}
@@ -70,7 +69,7 @@ export default function Team() {
                         <img
                             src={member.imageUrl}
                             alt={`${member.name}'s profile`}
-                            className="w-40 h-40 object-cover mb-4"
+                            className="w-40 h-40 rounded-full object-cover mb-4"
                         />
                         <h2 className="text-xl font-semibold text-gray-800 mb-2">{member.name}</h2>
                         <h3 className="text-gray-600 mb-4">{member.role}</h3>
@@ -86,7 +85,6 @@ export default function Team() {
                     className={`px-4 py-2 mx-1 rounded flex items-center ${currentPage === 1 ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                 >
                     <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
-
                 </button>
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
@@ -102,7 +100,6 @@ export default function Team() {
                     onClick={() => setCurrentPage(currentPage + 1)}
                     className={`px-4 py-2 mx-1 rounded flex items-center ${currentPage === totalPages ? 'bg-gray-300 text-gray-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                 >
-
                     <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
                 </button>
             </div>

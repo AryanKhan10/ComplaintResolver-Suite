@@ -87,10 +87,10 @@ const filteredUsers = users.filter(
               <td className="p-3 border border-gray-300">{user.firstName}</td>
               <td className="p-3 border border-gray-300">{user.lastName}</td>
               <td className="p-3 border border-gray-300">{user.email}</td>
-              <td className="p-3 border border-gray-300">{user.role}</td>
+              <td className="p-3 border border-gray-300">{user.accountType}</td>
               <td className="p-3 border border-gray-300 space-x-2">
                 <button
-                  onClick={() => handleDelete(user.id)}
+                  onClick={() => handleDelete(user._id)}
                   className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
                 >
                   Delete

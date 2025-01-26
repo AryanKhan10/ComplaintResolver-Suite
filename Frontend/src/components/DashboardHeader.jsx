@@ -38,41 +38,41 @@ const Headers = () => {
     formData.append('title', title);
     formData.append('description', description);
     if (file) {
-    console.log("file", file)
-        formData.append('attachment', file); // Change 'file' to 'attachment'
+      console.log("file", file)
+      formData.append('attachment', file); // Change 'file' to 'attachment'
     }
     console.log(formData)
-    
-      try {
-        const token = localStorage.getItem('token'); // Retrieve token stored after login
-        console.log('Token from frontend:',token );
-        
-        await axios.post(
-          'http://localhost:3000/api/v1/complaint/create',
-          formData,
-          {
-            withCredentials: true,
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Bearer ${token}`, // Include token in Authorization header
-            },
-          }
-        );
 
-      
-      
-        setTitle('');
-        setDescription('');
-        setFile(null);
-        closeModal();
-        alert('Complaint submitted successfully');
+    try {
+      const token = localStorage.getItem('token'); // Retrieve token stored after login
+      console.log('Token from frontend:', token);
+
+      await axios.post(
+        'http://localhost:3000/api/v1/complaint/create',
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`, // Include token in Authorization header
+          },
+        }
+      );
+
+
+
+      setTitle('');
+      setDescription('');
+      setFile(null);
+      closeModal();
+      alert('Complaint submitted successfully');
     } catch (err) {
-        console.error('Error occurred while submitting the form:', err.response.data.error);
-        alert('Failed to submit the complaint. Please try again.');
+      console.error('Error occurred while submitting the form:', err.response.data.error);
+      alert('Failed to submit the complaint. Please try again.');
     }
-};
+  };
 
-  
+
 
   // Clear the error message on input change
   const handleTitleChange = (e) => {
@@ -90,24 +90,12 @@ const Headers = () => {
   };
 
   return (
-    <header className="bg-gray-500 text-white p-4 mx-[4%] rounded-lg shadow-md w-[calc(100%-3rem)] overflow-hidden">
+    <header className="bg-gray-700 text-white p-4 mx-[4%] rounded-lg shadow-md w-[calc(100%-3rem)] overflow-hidden">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold mx-[18%]">User Dashboard</h2>
         <div className="flex items-center space-x-4">
-          {/* Icons */}
-          <div className="flex space-x-3">
-            <div className="bg-blue-700 p-2 rounded-full cursor-pointer">
-              <i className="ri-group-fill"></i>
-            </div>
-            <div className="bg-blue-700 p-2 rounded-full cursor-pointer">
-              <i className="ri-message-2-line"></i>
-            </div>
-            <div className="bg-blue-700 p-2 rounded-full cursor-pointer">
-              <i className="text-white ri-notification-3-fill"></i>
-            </div>
-          </div>
           <button
-            className="bg-blue-700 px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 px-4 mx-[140px] py-2 rounded hover:bg-blue-600"
             onClick={HandleComplaints}
           >
             New Complaint
@@ -168,7 +156,7 @@ const Headers = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-700 px-4 py-2 rounded text-white"
+                  className="bg-blue-500 px-4 py-2 rounded text-white"
                 >
                   Submit
                 </button>

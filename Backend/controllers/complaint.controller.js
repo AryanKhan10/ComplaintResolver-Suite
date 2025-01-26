@@ -105,14 +105,14 @@ console.log(newComplaint, "newComplaint")
 const getAllComplaints = async (req, res) => {
     try {
         const { accountType, userId } = req.user;
-        // console.log(userId)
+        console.log(userId)
         let complaints;
         if (accountType === "Admin") {
             complaints = await Complaint.find();
         } else if (accountType === "Ordinary") {
             complaints = await Complaint.find({ userId: userId });
         } else if (accountType === "Agent") {
-            complaints = await Complaint.find({ agentId: userId });
+            complaints = await Complaint.find({ userId: userId });
             console.log("abc ",complaints)
         } else {
             return res.status(403).json({

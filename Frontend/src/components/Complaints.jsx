@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import API from '../../api/api';
 // import API from '../../api/api'
 
 const Complaint = () => {
@@ -11,21 +12,23 @@ const Complaint = () => {
     useEffect(() => {
       const fetchComplaints = async () => {
         try {
-          const token = localStorage.getItem("token"); // Assuming the JWT token is stored in localStorage
-          const response = await axios.get("http://localhost:3000/api/v1/getAllComplaints", {
-            headers: {
-              Authorization: `Bearer ${token}`, // Add the token for authentication
-            },
-          });
+          // const token = localStorage.getItem("token"); // Assuming the JWT token is stored in localStorage
+          // const response = await axios.get("http://localhost:3000/api/v1/getAllComplaints", {
+          //   headers: {
+          //     Authorization: `Bearer ${token}`, // Add the token for authentication
+          //   },
+          // });
   
-          if (response.data.success) {
-            const complaintsData = Array.isArray(response.data.complaints)
-              ? response.data.complaints
-              : []; // Ensure it's an array
-            setComplaints(complaintsData);
-          } else {
-            console.error(response.data.message);
-          }
+          // if (response.data.success) {
+          //   const complaintsData = Array.isArray(response.data.complaints)
+          //     ? response.data.complaints
+          //     : []; // Ensure it's an array
+          const res = await API.get("/complaint/getAllComplaints")
+          console.log(res.data)
+            setComplaints(res.data.complaints);
+          // } else {
+          //   console.error(response.data.message);
+          // }
         } catch (error) {
           console.error("Error fetching complaints:", error.response?.data?.message || error.message);
         }

@@ -43,7 +43,7 @@ const router = express.Router();
 router.post('/create',auth, createComplaint);
 
 // Route to get all complaints
-router.get('/getAllComplaints', auth,isAdmin, getAllComplaints);
+router.get('/getAllComplaints', auth, getAllComplaints);
 
 // Route to get a specific complaint by ID
 router.get('/getComplaint/:id', auth, getComplaintById);

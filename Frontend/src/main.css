@@ -106,3 +106,281 @@ body {
   scroll-behavior: none;
   object-fit: contain;
 }
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5fa;
+  position: relative;
+}
+
+/* Chatbot Popup */
+.chatbot-popup {
+  width: 350px;
+  height: 420px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed; /* Position it fixed to the screen */
+  bottom: 80px; /* Above the button */
+  right: 20px; /* Right corner */
+  animation: jumpIn 0.5s ease-out; /* Add jumping effect */
+}
+
+/* Chat Header */
+.chat-header {
+  background-color: #6f46eb;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-info svg {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  color: #6f46eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-info h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.chat-header button {
+  height: 40px;
+  width: 40px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.9rem;
+  padding-top: 2px;
+  border-radius: 50%;
+  margin-right: -10px;
+  background: none;
+  color: #ffff;
+}
+
+.chat-header button:hover {
+  background: #6039d5;
+}
+
+/* Chat Body */
+.chat-body {
+  direction: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 350px;
+  padding: 20px 15px;
+  background-color: #f5f5fa;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #DDD3F9 transparent;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.bot-message {
+  flex-direction: row;
+}
+
+.user-message {
+  flex-direction: row-reverse;
+}
+
+.message-text {
+  max-width: 80%;
+  background-color: #e9e7fc;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #333;
+}
+
+.user-message .message-text {
+  background-color: #6f46eb;
+  color: #fff;
+  border-top-right-radius: 0;
+}
+
+.bot-message .message-text {
+  border-top-left-radius: 0;
+}
+
+.bot-message svg {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  fill: #6f46eb;
+  margin: 0 5px;
+}
+
+/* Chat Footer */
+.chat-footer {
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.chat-form {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.message-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.message-input:focus {
+  border-color: #6f46eb;
+  box-shadow: 0 0 4px rgba(111, 70, 235, 0.5);
+}
+
+.chat-footer button {
+  background-color: #6f46eb;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.chat-footer button:hover {
+  background-color: #5a36c3;
+  box-shadow: 0 4px 8px rgba(90, 54, 195, 0.3);
+}
+
+.chat-footer img {
+  font-size: 20px;
+}
+
+/* Word-by-word typing effect animation */
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.bot-response {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #333;
+  border-right: 3px solid #333;
+  padding-right: 5px;
+  animation: typing 3s steps(20) 1s 1 normal both, fadeIn 0.5s ease-out forwards;
+}
+
+/* Fade-in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Bot button at the bottom right */
+.bot-button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Position it fixed to the screen */
+  bottom: 20px;
+  right: 20px;
+}
+
+.bot-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.bot-button:active {
+  transform: scale(0.98);
+}
+
+.bot-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+}
+
+.bot-button svg {
+  fill: white;
+  width: 24px;
+  height: 24px;
+}
+
+/* Jump-in animation */
+@keyframes jumpIn {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

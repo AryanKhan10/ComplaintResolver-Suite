@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { useContext } from 'react';
 import { AppContext } from './context/AppContext';
 import LoginForm from './components/Login';
+import Chatbot from "./components/chatbot/chatbot";
+import ChatbotIcon from "./components/chatbot/chatButton";
 import Browse from './components/Browse';
 import OTPVerification from './components/OTPwait';
 import SuccessScreen from './components/Success';
@@ -17,6 +19,7 @@ import Admin from './components/Admin'; // Admin panel component
 import AdminPanel from './components/AdminPanel'; // Admin panel component
 import User from './components/User'
 const App = () => {
+  const [showBot, setShowBot] = useState(false);
   const { role } = useContext(AppContext); // Access the user from context
   console.log(role)
   const router = createBrowserRouter([
@@ -64,7 +67,18 @@ const App = () => {
 
   return (
     <>
+   
       <Navbar />
+      {!showBot && (
+        <button className="bot-button" onClick={() => setShowBot(true)}>
+          <ChatbotIcon />
+        </button>
+      )}
+
+      {/* Chatbot */}
+      {showBot && (
+        <Chatbot closeBot={() => setShowBot(false)} />
+      )}
       <RouterProvider router={router} />
     </>
   );

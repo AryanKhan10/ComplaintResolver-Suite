@@ -5,18 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import toast from "react-hot-toast"
 import API from "../../api/api"
  function AdminPanel() {
-  const [complaints, setComplaints] = useState([
-    // { id: 1, user: "John Doe", date: "2023-07-01", status: "Open", description: "Website is not loading properly" },
-    // { id: 2, user: "Jane Smith", date: "2023-07-02", status: "In Progress", description: "Cannot reset password" },
-    // { id: 3, user: "Bob Johnson", date: "2023-07-03", status: "Closed", description: "Billing issue with recent charge" },
-    // { id: 4, user: "Alice Brown", date: "2023-07-04", status: "Open", description: "Error when submitting form" },
-    // {
-    //   id: 5,
-    //   user: "Charlie Davis",
-    //   date: "2023-07-05",
-    //   status: "In Progress",
-    //   description: "Mobile app crashes on startup",
-    // },
+  const [complaints, setComplaints] = useState([    
   ])
   
   const [search, setSearch] = useState("")

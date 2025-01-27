@@ -11,6 +11,7 @@ import salmanImg from "../assets/salman.png";
 import faisalImg from "../assets/faisal.png";
 import dummyImg from "../assets/dummy.png";
 import aryanImg from "../assets/aryan.png";
+import musanifImg from '../assets/musanif.png'
 
 export default function Team() {
     const teamMembers = [
@@ -21,8 +22,8 @@ export default function Team() {
         { name: "Salman Ali", role: "Tester", imageUrl: salmanImg },
         { name: "Laiba Hamid", role: "Web Designer", imageUrl: dummyImg },
         { name: "Emaan Sheeraz", role: "Web Designer", imageUrl: dummyImg },
-        { name: "Asad Ullah", role: "Documentations", imageUrl: asadImg },
-        { name: "Muhammad Musanif", role: "Documentations", imageUrl: majeedImg },
+        { name: "Asad Ullah", role: "Data Analyst", imageUrl: asadImg },
+        { name: "Muhammad Musanif", role: "Web Designer", imageUrl: musanifImg },
         { name: "Faisal Hashim", role: "Tester", imageUrl: faisalImg },
     ];
 

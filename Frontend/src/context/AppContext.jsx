@@ -14,6 +14,8 @@ export default function AppContextProvider({ children }) {
 
             setUserID(decodedToken.userId)
             setRole(decodedToken.accountType)
+            localStorage.setItem("token", token)
+            localStorage.setItem("role", role)
         }
     }, [token])
 

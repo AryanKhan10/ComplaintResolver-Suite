@@ -17,7 +17,7 @@ const Complaint = () => {
     };
 
     fetchComplaints();
-  }, []);
+  }, [complaint]);
 
   const pendingComplaints = complaint.filter((c) => c.status === 'pending');
   const resolvedComplaints = complaint.filter((c) => c.status === 'closed');

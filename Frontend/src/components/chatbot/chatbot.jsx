@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ChatbotIcon from "./chatButton";
-import ChatMessage from "../components/chatMessages";
+import ChatMessage from "./chatMessages";
 import ChatForm from "./chatform";
 import PropTypes from 'prop-types';
 

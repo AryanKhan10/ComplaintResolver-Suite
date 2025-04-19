@@ -124,8 +124,12 @@ const login = async (req, res) => {
       });
     }
     // check for the email if registered
+    console.log(email)
     const registeredUser = await User.findOne({ email });
     if (!registeredUser) {
+      const registeredUser = await User.find();
+      console.log(registeredUser)
+
       return res.status(401).json({
         success: false,
         message: "User is not registered.",

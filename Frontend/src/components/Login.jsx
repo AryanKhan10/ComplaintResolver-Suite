@@ -9,6 +9,7 @@ const LoginForm = () => {
   const {setToken,token,role}=useContext(AppContext)
   // Create state for toggling between forms
   const [isSignIn, setSignIn] = useState(true);
+  const [loading,setLoading]= useState(false)
   const [Iserror, setiserror] = useState(null);
   const email = useRef();
   const password = useRef();
@@ -45,8 +46,9 @@ const LoginForm = () => {
       );
       setiserror(check);
       if (!check) {
+        setLoading(true)
         try {
-
+          
           const res = await API.post(
             "/auth/sendOTP",
             { email: email.current.value },
@@ -71,9 +73,11 @@ const LoginForm = () => {
           alert("Error sending OTP");
           console.log(error);
         }
+        setLoading(false)
       }
     } else {
       // if (!Message) {
+      setLoading(true)
         try {
           const res = await API.post("/user/login", {
             email: email.current.value,
@@ -106,6 +110,7 @@ const LoginForm = () => {
           alert("Error Logging");
           console.log(error);
         }
+        setLoading(false)
       // }
       // setiserror(Message);
     }
@@ -165,10 +170,12 @@ const LoginForm = () => {
             {/* Sign In Button */}
             <button
               type="submit"
+              disabled={loading}
               onClick={Handleform}
               className="w-full bg-blue-500 text-white font-medium py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
-              Sign in
+                                {!loading ? 'Sign In' :'loading...'}
+
             </button>
 
             {/* Toggle to Register */}
@@ -330,9 +337,11 @@ const LoginForm = () => {
             <button
               type="submit"
               onClick={Handleform}
+              disabled={loading}
               className="w-full bg-blue-500 text-white font-medium py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
-              Register
+             {!loading ? 'Register here' :'loading...'}
+
             </button>
 
             {/* Toggle to Sign In */}
@@ -343,6 +352,7 @@ const LoginForm = () => {
                   type="button"
                   onClick={handleToggle}
                   className="text-blue-500 hover:underline"
+                  
                 >
                   Sign in
                 </button>
